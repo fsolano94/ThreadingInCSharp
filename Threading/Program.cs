@@ -17,9 +17,13 @@ namespace Threading
         static void Main(string[] args)
         {
 
-            var task = Task.Factory.StartNew(PrintHelloWorld); // this is a thread from the thread pool
-
             Program programInstance = new Program();
+
+            var task1 = Task.Factory.StartNew(PrintHelloWorld); // this is a thread from the thread pool
+
+            Task<int> task2 = Task.Factory.StartNew(() => programInstance.Sum(10, 5));
+
+            Console.WriteLine($"Sum = {task2.Result}.");
 
             Thread t1 = new Thread(() => programInstance.DisplayMessage($"Learning Threading using C#. From Thread1."));
 
@@ -47,7 +51,9 @@ namespace Threading
             t3.Join();
             Console.WriteLine($"{t3.Name} finished.");
 
-            task.Wait();
+            task1.Wait();
+
+            task2.Wait();
 
             Console.ReadLine();
         }
@@ -76,6 +82,10 @@ namespace Threading
             Console.WriteLine($"Your name is {name}.");
         }
         
+        public int Sum(int num1, int num2)
+        {
+            return num1 + num2;
+        }
       
     }
 }
