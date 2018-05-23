@@ -13,11 +13,19 @@ namespace Threading
         public bool messageDisplayed = false;
         public object locker = new object();
         public string name = string.Empty;
+        public int Counter { get; set; } = 0;
 
         static void Main(string[] args)
         {
-
             Program programInstance = new Program();
+
+            for (int i = 0; i < 10; i++)
+            {
+                programInstance.PrintCounter();
+                programInstance.IncrementCounter();
+            }
+
+            Task.Factory.StartNew(() => programInstance.PrintAndIncrementCounterNTimes(10));
 
             Func<string> method = programInstance.DoWork;
 
@@ -111,5 +119,25 @@ namespace Threading
             Console.WriteLine("Work completed.");
             return "success";
         }
+
+        public void PrintCounter()
+        {
+            Console.WriteLine($"Counter = {Counter}.");
+        }
+
+        public void IncrementCounter()
+        {
+            Counter += 1;
+        }
+
+        public void PrintAndIncrementCounterNTimes(int numberOfTimes)
+        {
+            for (int i = 0; i < numberOfTimes; i++)
+            {
+                PrintCounter();
+                IncrementCounter();
+            }
+        }
+
     }
 }
