@@ -16,14 +16,18 @@ namespace Threading
         {
             Program programInstance = new Program();
 
-            Thread t1 = new Thread(()=> programInstance.DisplayMessage("Learning Threading using C#. From Thread 1."));
+            Thread t1 = new Thread(()=> programInstance.DisplayMessage($"Learning Threading using C#. From Thread1."));
+            t1.Name = "Thread 1";
             Thread t2 = new Thread(() => programInstance.DisplayMessage("Learning Threading using C#. From Thread 2."));
-
+            t2.Name = "Thread 2";
             t1.Start();
             t2.Start();
 
             t1.Join();
+            Console.WriteLine($"{t1.Name} finished.");
+
             t2.Join();
+            Console.WriteLine($"{t2.Name} finished.");
 
             Console.ReadLine();
         }
