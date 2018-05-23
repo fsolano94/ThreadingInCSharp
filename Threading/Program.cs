@@ -17,6 +17,9 @@ namespace Threading
 
         static void Main(string[] args)
         {
+
+            PrintFooBard();
+
             Program programInstance = new Program();
 
             for (int i = 0; i < 10; i++)
@@ -29,7 +32,7 @@ namespace Threading
 
             Func<string> method = programInstance.DoWork;
 
-            IAsyncResult startMethod = method.BeginInvoke(null,null);
+            IAsyncResult startMethod = method.BeginInvoke(null, null);
 
             var startMethodResult = method.EndInvoke(startMethod);
 
@@ -63,19 +66,50 @@ namespace Threading
             t3.Start();
 
             t1.Join();
-            Console.WriteLine($"{t1.Name} finished.");
+
+            lock (programInstance.locker)
+            {
+                Console.WriteLine($"{t1.Name} finished.");
+            }
 
             t2.Join();
-            Console.WriteLine($"{t2.Name} finished.");
+
+            lock (programInstance.locker)
+            {
+                Console.WriteLine($"{t2.Name} finished.");
+            }
 
             t3.Join();
-            Console.WriteLine($"{t3.Name} finished.");
+
+            lock (programInstance.locker)
+            {
+                Console.WriteLine($"{t3.Name} finished.");
+            }
 
             task1.Wait();
 
             task2.Wait();
 
             Console.ReadLine();
+        }
+
+        public static void PrintFooBard()
+        {
+            List<Thread> threads = new List<Thread>();
+            for (int i = 0; i < 5; i++)
+            {
+                Thread t = new Thread(() =>
+                {
+                    Console.WriteLine($"I Foobar'd {i + 1}");
+                });
+                t.Start();
+                threads.Add(t);
+            }
+
+            foreach (var t in threads)
+            {
+                t.Join();
+            }
         }
 
         public static void PrintHelloWorld()
@@ -97,9 +131,12 @@ namespace Threading
 
         public void DisplayName()
         {
-            Console.Write("Enter your name: ");
-            name = Console.ReadLine(); 
-            Console.WriteLine($"Your name is {name}.");
+            lock (locker)
+            {
+                Console.Write("Enter your name: ");
+                name = Console.ReadLine();
+                Console.WriteLine($"Your name is {name}.");
+            }
         }
         
         public int Sum(int num1, int num2)
