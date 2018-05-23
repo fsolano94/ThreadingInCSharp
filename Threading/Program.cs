@@ -23,6 +23,10 @@ namespace Threading
 
             Task<int> task2 = Task.Factory.StartNew(() => programInstance.Sum(10, 5));
 
+            ThreadPool.QueueUserWorkItem(programInstance.CastObjectToStringAndPrintIt);
+
+            ThreadPool.QueueUserWorkItem(programInstance.CastObjectToStringAndPrintIt, "This is some message.");
+
             Console.WriteLine($"Sum = {task2.Result}.");
 
             Thread t1 = new Thread(() => programInstance.DisplayMessage($"Learning Threading using C#. From Thread1."));
@@ -86,6 +90,11 @@ namespace Threading
         {
             return num1 + num2;
         }
-      
+
+        public void CastObjectToStringAndPrintIt(object message)
+        {
+            Console.WriteLine((string)message);
+        }
+
     }
 }
