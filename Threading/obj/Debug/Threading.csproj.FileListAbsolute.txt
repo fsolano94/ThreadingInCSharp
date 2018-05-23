@@ -5,3 +5,10 @@ C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.csproj.CoreC
 C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.exe
 C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.pdb
 C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.csprojResolveAssemblyReference.cache
+E:\GitHub\ThreadingInCSharp\Threading\bin\Debug\Threading.exe.config
+E:\GitHub\ThreadingInCSharp\Threading\bin\Debug\Threading.exe
+E:\GitHub\ThreadingInCSharp\Threading\bin\Debug\Threading.pdb
+E:\GitHub\ThreadingInCSharp\Threading\obj\Debug\Threading.csprojResolveAssemblyReference.cache
+E:\GitHub\ThreadingInCSharp\Threading\obj\Debug\Threading.csproj.CoreCompileInputs.cache
+E:\GitHub\ThreadingInCSharp\Threading\obj\Debug\Threading.exe
+E:\GitHub\ThreadingInCSharp\Threading\obj\Debug\Threading.pdb
