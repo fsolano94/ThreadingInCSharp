@@ -19,6 +19,14 @@ namespace Threading
 
             Program programInstance = new Program();
 
+            Func<string> method = programInstance.DoWork;
+
+            IAsyncResult startMethod = method.BeginInvoke(null,null);
+
+            var startMethodResult = method.EndInvoke(startMethod);
+
+            Console.WriteLine($"Result from DoWork: {startMethodResult}.");
+
             var task1 = Task.Factory.StartNew(PrintHelloWorld); // this is a thread from the thread pool
 
             Task<int> task2 = Task.Factory.StartNew(() => programInstance.Sum(10, 5));
@@ -96,5 +104,12 @@ namespace Threading
             Console.WriteLine((string)message);
         }
 
+        public string DoWork()
+        {
+            Console.WriteLine("Working ...");
+            Thread.Sleep(3000);
+            Console.WriteLine("Work completed.");
+            return "success";
+        }
     }
 }
