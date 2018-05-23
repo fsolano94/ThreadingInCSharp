@@ -18,7 +18,7 @@ namespace Threading
         {
             Program programInstance = new Program();
 
-            Thread t1 = new Thread(()=> programInstance.DisplayMessage($"Learning Threading using C#. From Thread1."));
+            Thread t1 = new Thread(() => programInstance.DisplayMessage($"Learning Threading using C#. From Thread1."));
 
             t1.Name = "Thread 1";
 
@@ -34,8 +34,6 @@ namespace Threading
             t2.Start();
 
             t3.Start();
-
-            programInstance.DisplayNameOfAllThreads();
 
             t1.Join();
             Console.WriteLine($"{t1.Name} finished.");
@@ -64,21 +62,10 @@ namespace Threading
         public void DisplayName()
         {
             Console.Write("Enter your name: ");
-            name = Console.ReadLine();
+            name = Console.ReadLine(); 
             Console.WriteLine($"Your name is {name}.");
         }
         
-        public void DisplayNameOfAllThreads()
-        {
-            var numberOfThreads = Process.GetCurrentProcess().Threads.Count;
-            var threads = Process.GetCurrentProcess().Threads;
-
-            for (int i = 0; i < numberOfThreads; i++)
-            {
-                var currentThread = threads[i];
-                Console.WriteLine(currentThread);
-            }
-
-        }
+      
     }
 }
