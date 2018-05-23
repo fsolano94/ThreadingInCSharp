@@ -1,0 +1,6 @@
+C:\Users\fsola\Source\Repos\Threading\Threading\bin\Debug\Threading.exe.config
+C:\Users\fsola\Source\Repos\Threading\Threading\bin\Debug\Threading.exe
+C:\Users\fsola\Source\Repos\Threading\Threading\bin\Debug\Threading.pdb
+C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.csproj.CoreCompileInputs.cache
+C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.exe
+C:\Users\fsola\Source\Repos\Threading\Threading\obj\Debug\Threading.pdb
