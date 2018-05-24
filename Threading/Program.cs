@@ -8,6 +8,28 @@ using System.Diagnostics;
 
 namespace Threading
 {
+
+    class Person
+    {
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string BirthCity { get; set; }
+        public string BirthState { get; set; }
+        public int Age { get; set; }
+
+        public Person(string f, string m, string l, string bc, string bs, int age)
+        {
+            FirstName = f;
+            MiddleName = m;
+            LastName = l;
+            BirthCity = bc;
+            BirthState = bs;
+            Age = age;
+        }
+
+    }
+
     class Program
     {
         public bool messageDisplayed = false;
@@ -20,7 +42,7 @@ namespace Threading
 
             PrintFooBard();
 
-            Console.WriteLine(DownloadHtml(@"http://www.albahari.com/threading/")); 
+            Console.WriteLine(DownloadHtml(@"http://www.albahari.com/threading/"));
 
             Program programInstance = new Program();
 
@@ -28,10 +50,32 @@ namespace Threading
 
             someNewAction(1234567890);
 
-            Func<int, int, int> someNewFunc = new Func<int, int,int>(programInstance.Sum);
+            Func<int, int, int> someNewFunc = new Func<int, int, int>(programInstance.Sum);
 
-            Console.WriteLine($"Sum(199, 1) = {someNewFunc(199,1)}.");
+            Console.WriteLine($"Sum(199, 1) = {someNewFunc(199, 1)}.");
 
+            var employees = programInstance.GetAllEmployees();
+
+            string middleName = string.Empty;
+
+            lock (programInstance.locker)
+            {
+
+                Console.Write("Enter middle name of person to find: ");
+
+                middleName = Console.ReadLine();
+
+            }
+
+            Predicate<Person> findPerson = (person=>person.MiddleName==middleName);
+
+            foreach (var person in employees)
+            {
+                if (findPerson(person))
+                {
+                    programInstance.PrintPerson(person);
+                }
+            }
 
             for (int i = 0; i < 10; i++)
             {
@@ -104,6 +148,8 @@ namespace Threading
             Console.ReadLine();
         }
 
+
+
         public static void PrintFooBard()
         {
             List<Thread> threads = new List<Thread>();
@@ -117,6 +163,20 @@ namespace Threading
             foreach (var t in threads)
             {
                 t.Join();
+            }
+        }
+
+        public void PrintPerson(Person person)
+        {
+            lock (locker)
+            {
+                Console.WriteLine("Person information: ");
+                Console.WriteLine($"First name: {person.FirstName}.");
+                Console.WriteLine($"Middle name: {person.MiddleName}.");
+                Console.WriteLine($"Last name: {person.LastName}.");
+                Console.WriteLine($"Birth city: {person.BirthCity}.");
+                Console.WriteLine($"Birth state: {person.BirthState}.");
+                Console.WriteLine($"Age: {person.Age}.");
             }
         }
 
@@ -136,6 +196,17 @@ namespace Threading
         public static void PrintHelloWorld()
         {
             Console.WriteLine("Hello World");
+        }
+
+        public List<Person> GetAllEmployees()
+        {
+            return new List<Person>()
+            {
+                new Person("Francisco", "Elena","Solano", "Las Vegas", "NV", 23),
+                new Person("Jane", "Middle", "Doe", "NC", "State1", 10),
+                new Person("First1", "Middle2", "Last1", "BC2", "BS1", 11),
+                new Person("First2", "Middle3", "Last2", "BC3", "BS2", 12)
+            };
         }
 
         public void DisplayMessage(string message)
