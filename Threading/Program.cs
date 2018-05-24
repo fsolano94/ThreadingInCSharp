@@ -20,7 +20,18 @@ namespace Threading
 
             PrintFooBard();
 
+            Console.WriteLine(DownloadHtml(@"http://www.albahari.com/threading/")); 
+
             Program programInstance = new Program();
+
+            Action<int> someNewAction = new Action<int>(programInstance.PrintNumberToConsole);
+
+            someNewAction(1234567890);
+
+            Func<int, int, int> someNewFunc = new Func<int, int,int>(programInstance.Sum);
+
+            Console.WriteLine($"Sum(199, 1) = {someNewFunc(199,1)}.");
+
 
             for (int i = 0; i < 10; i++)
             {
@@ -98,11 +109,8 @@ namespace Threading
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < 5; i++)
             {
-                Thread t = new Thread(() =>
-                {
-                    Console.WriteLine($"I Foobar'd {i + 1}");
-                });
-                t.Start();
+                Thread t = new Thread(new ParameterizedThreadStart(PrintNumber));
+                t.Start(i);
                 threads.Add(t);
             }
 
@@ -110,6 +118,19 @@ namespace Threading
             {
                 t.Join();
             }
+        }
+
+        public static string DownloadHtml(string websiteUrl)
+        {
+            using (var webClient = new System.Net.WebClient())
+            {
+                return webClient.DownloadString(websiteUrl);
+            }
+        }
+
+        public static void PrintNumber(object number)
+        {
+            Console.WriteLine($"I Foobar'd {(int)number}.");
         }
 
         public static void PrintHelloWorld()
@@ -174,6 +195,11 @@ namespace Threading
                 PrintCounter();
                 IncrementCounter();
             }
+        }
+
+        public void PrintNumberToConsole(int number)
+        {
+            Console.WriteLine(number);
         }
 
     }
