@@ -27,7 +27,6 @@ namespace Threading
             BirthState = bs;
             Age = age;
         }
-
     }
 
     class Program
@@ -60,7 +59,6 @@ namespace Threading
 
             lock (programInstance.locker)
             {
-
                 Console.Write("Enter middle name of person to find: ");
 
                 middleName = Console.ReadLine();
